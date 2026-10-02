@@ -1,0 +1,337 @@
+questions:
+- id: requested_change
+  phase: opening
+  priority: 100
+  base_question: What change or capability do you need?
+  ask_when:
+    field: answers.requested_change
+    operator: missing
+  rag_search: false
+  collect_fields:
+  - requested_change
+- id: business_need
+  phase: opening
+  priority: 90
+  base_question: What problem or business need does this address?
+  ask_when:
+    field: answers.business_need
+    operator: missing
+  rag_search: false
+  collect_fields:
+  - business_need
+- id: primary_users
+  phase: opening
+  priority: 80
+  base_question: Who will use this capability, and how widely will it be used?
+  ask_when:
+    field: answers.primary_users
+    operator: missing
+  rag_search: false
+  parts:
+  - id: users
+    fields:
+    - primary_users
+    text: Who will use this capability?
+    ask_when:
+      field: answers.primary_users
+      operator: missing
+  - id: reach
+    fields:
+    - organizational_scope
+    text: How widely will it be used within or outside the organization?
+    ask_when:
+      field: answers.organizational_scope
+      operator: missing
+- id: domain_function
+  phase: domain_discovery
+  priority: 100
+  base_question: Which business department or function is this requirement for?
+  ask_when:
+    field: answers.domain
+    operator: unresolved
+  max_answer_attempts: 1
+  rag_search: false
+  collect_fields:
+  - domain
+- id: domain_process
+  phase: domain_discovery
+  priority: 90
+  base_question: Which business process will this capability support?
+  ask_when:
+    all:
+    - field: answers.domain
+      operator: unresolved
+    - field: domain_clarification_attempts
+      operator: greater_than_or_equal
+      value: 1
+  max_answer_attempts: 1
+  rag_search: false
+  parts:
+  - id: process
+    fields:
+    - business_process
+    text: Which business process will this capability support?
+    ask_when:
+      field: answers.business_process
+      operator: missing
+  - id: function
+    fields:
+    - domain
+    text: Which business department or function owns this process?
+    ask_when:
+      all:
+      - field: answers.business_process
+        operator: answered
+      - field: answers.domain
+        operator: unresolved
+- id: required_behavior
+  phase: discovery
+  priority: 100
+  base_question: What should users or the system be able to do?
+  ask_when:
+    field: answers.functional_requirements
+    operator: missing
+  rag_search: true
+  collect_fields:
+  - functional_requirements
+  context_fields:
+  - domain
+  - requested_change
+  - business_process
+- id: success_result
+  phase: discovery
+  priority: 90
+  base_question: What result would demonstrate success?
+  ask_when:
+    field: answers.success_result
+    operator: missing
+  rag_search: false
+  collect_fields:
+  - success_result
+- id: application_context
+  phase: application_context
+  priority: 100
+  base_question: Is this a new standalone feature or application, or a change to an
+    existing application?
+  ask_when:
+    field: answers.application_context
+    operator: missing
+  input:
+    control: select
+    target_field: application_context
+    options:
+    - id: standalone
+      label: New standalone feature/application
+      value: standalone
+      status: answered
+    - id: existing
+      label: Change to an existing application
+      value: existing
+      status: answered
+    - id: undecided
+      label: Not yet decided
+      value: null
+      status: unconfirmed
+    - id: other
+      label: Other — describe
+      kind: text
+  rag_search: true
+  collect_fields:
+  - application_context
+  context_fields:
+  - domain
+  - requested_change
+  - business_process
+- id: existing_application
+  phase: discovery
+  priority: 75
+  base_question: Which application is being changed?
+  ask_when:
+    all:
+    - field: answers.application_context.value
+      operator: equals
+      value: existing
+    - field: answers.existing_application
+      operator: missing
+  rag_search: true
+  parts:
+  - id: application
+    fields:
+    - existing_application
+    text: Which application is being changed?
+    ask_when:
+      field: answers.existing_application
+      operator: missing
+  context_fields:
+  - domain
+  - requested_change
+  - business_process
+- id: integration_required
+  phase: discovery
+  priority: 70
+  base_question: Does this capability need to exchange information with another system?
+  input:
+    control: select
+    target_field: integration_required
+    options:
+    - id: 'yes'
+      label: 'Yes'
+      value: true
+      status: answered
+    - id: 'no'
+      label: 'No'
+      value: false
+      status: answered
+    - id: undecided
+      label: Not yet confirmed
+      value: null
+      status: unconfirmed
+    - id: other
+      label: Other — describe
+      kind: text
+  ask_when:
+    field: answers.integration_required
+    operator: missing
+  rag_search: true
+  collect_fields:
+  - integration_required
+  context_fields:
+  - domain
+  - requested_change
+  - business_process
+  - existing_application
+  - integration_systems
+  - integration_flow
+- id: integration_details
+  phase: discovery
+  priority: 65
+  base_question: What information will be exchanged, in which direction, and what
+    will the receiving system do with it?
+  ask_when:
+    all:
+    - field: answers.integration_required.value
+      operator: equals
+      value: true
+    - any:
+      - field: answers.integration_systems
+        operator: missing
+      - field: answers.integration_flow
+        operator: missing
+      - field: answers.integration_details
+        operator: missing
+  rag_search: true
+  parts:
+  - id: systems
+    fields:
+    - integration_systems
+    text: Which systems will exchange information?
+    ask_when:
+      field: answers.integration_systems
+      operator: missing
+  - id: direction
+    fields:
+    - integration_flow
+    text: In which direction will the information move?
+    ask_when:
+      field: answers.integration_flow
+      operator: missing
+  - id: information_and_action
+    fields:
+    - integration_details
+    text: What information will be exchanged, and what will the receiving system do
+      with it?
+    ask_when:
+      field: answers.integration_details
+      operator: missing
+  context_fields:
+  - domain
+  - requested_change
+  - business_process
+  - existing_application
+  - integration_systems
+  - integration_flow
+- id: organizational_scope
+  phase: discovery
+  priority: 60
+  base_question: How widely will this capability be used within or outside the organization?
+  ask_when:
+    field: answers.organizational_scope
+    operator: missing
+  rag_search: false
+  collect_fields:
+  - organizational_scope
+- id: delivery_context
+  phase: discovery
+  priority: 50
+  base_question: When is it needed, and what is driving that timing?
+  ask_when:
+    any:
+    - field: answers.target_timeline
+      operator: missing
+    - field: answers.timing_reason
+      operator: missing
+  rag_search: false
+  parts:
+  - id: timeline
+    fields:
+    - target_timeline
+    text: When is this needed?
+    ask_when:
+      field: answers.target_timeline
+      operator: missing
+  - id: reason
+    fields:
+    - timing_reason
+    text: What is driving that timing?
+    ask_when:
+      field: answers.timing_reason
+      operator: missing
+- id: owner
+  phase: discovery
+  priority: 40
+  base_question: Who is accountable for this requirement?
+  ask_when:
+    field: answers.business_owner
+    operator: missing
+  rag_search: false
+  collect_fields:
+  - business_owner
+- id: scope_clarification
+  phase: discovery
+  priority: 59
+  base_question: Do you mean all teams within one department, multiple departments,
+    the whole organization, or external users? You can select Not yet confirmed if
+    this is undecided.
+  ask_when:
+    field: answers.organizational_scope.status
+    operator: equals
+    value: unconfirmed
+  max_answer_attempts: 1
+  collect_fields:
+  - organizational_scope
+  input:
+    control: select
+    target_field: organizational_scope
+    options:
+    - id: team
+      label: One team
+      value: team
+    - id: department
+      label: One department
+      value: department
+    - id: multiple_departments
+      label: Multiple departments
+      value: multiple_departments
+    - id: enterprise
+      label: Across the organization
+      value: enterprise
+    - id: external
+      label: External users
+      value: external
+    - id: mixed
+      label: Internal and external users
+      value: mixed
+    - id: undecided
+      label: Not yet confirmed
+      value: null
+      status: unconfirmed

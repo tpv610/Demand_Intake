@@ -1,0 +1,137 @@
+documents:
+- id: hr_leave
+  domain: HR
+  title: Leave management — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Leave management
+  applications:
+  - Demo HR Portal
+  - Workday Sandbox
+  sections:
+  - heading: Business process and capabilities
+    text: Employees can check leave balances, request leave, cancel pending requests
+      and review request status. Managers review requests within their reporting scope.
+      Contractor eligibility is not assumed; confirm the intended worker groups.
+  - heading: Applications and information exchange
+    text: The demo HR Portal can read employee identifiers and leave balances from
+      Workday Sandbox. Leave-request submission is a separate write operation; do
+      not infer it from balance lookup. Confirm the affected application and authorized
+      information exchange.
+- id: hr_onboarding
+  domain: HR
+  title: Employee onboarding — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Employee onboarding
+  applications:
+  - Demo Onboarding Hub
+  sections:
+  - heading: Business process and capabilities
+    text: Onboarding tracks joining tasks, document submission and completion status.
+      HR specialists and hiring managers coordinate activities; contractors follow
+      a separately configured onboarding path.
+  - heading: Applications and information exchange
+    text: The demo hub can receive new-joiner profile information from Workday Sandbox
+      and send provisioning requests to Demo Identity Desk. Confirm whether these
+      exchanges belong to the proposed demand.
+- id: hr_payroll
+  domain: HR
+  title: Payroll inquiries — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Payroll inquiries
+  applications:
+  - Demo Payroll Helpdesk
+  sections:
+  - heading: Business process and capabilities
+    text: Payroll inquiry intake supports payslip questions and case status. Requests
+      may concern employees or former employees; requester access boundaries require
+      confirmation.
+  - heading: Applications and information exchange
+    text: The demo helpdesk can request payslip metadata from Payroll Sandbox. It
+      does not approve payroll adjustments. Confirm what information is needed and
+      whether payroll data may be displayed.
+- id: hr_recruitment
+  domain: HR
+  title: Recruitment and hiring — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Recruitment and hiring
+  applications:
+  - Demo Talent Workspace
+  sections:
+  - heading: Business process and capabilities
+    text: Recruiters track requisitions, candidate progress and interview feedback.
+      Hiring managers review candidates for their assigned roles. External candidates
+      do not receive recruiter permissions.
+  - heading: Applications and information exchange
+    text: Applicant profile updates can enter from Demo Careers Portal. Interview
+      scheduling may exchange availability with Demo Calendar Service; scheduling
+      integration is not automatically required.
+- id: hr_learning
+  domain: HR
+  title: Learning and development — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Learning and development
+  applications:
+  - Demo Learning Hub
+  sections:
+  - heading: Business process and capabilities
+    text: Employees view assigned courses, training status and completion evidence.
+      Learning administrators maintain assignments. Business success measures must
+      be supplied by the requester.
+  - heading: Applications and information exchange
+    text: Employee identity data may come from Workday Sandbox; course completion
+      events may come from Demo LMS. Confirm read versus update needs.
+- id: hr_offboarding
+  domain: HR
+  title: Employee offboarding — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Employee offboarding
+  applications:
+  - Demo Exit Workspace
+  sections:
+  - heading: Business process and capabilities
+    text: Exit tasks cover clearance requests, equipment return and access-removal
+      coordination. Workflow completion does not itself establish that access has
+      been revoked.
+  - heading: Applications and information exchange
+    text: Workday Sandbox may supply exit dates, while Demo Identity Desk handles
+      access removal. Confirm the direction, receiving-system action and approval
+      boundary.
+- id: hr_collaboration
+  domain: HR
+  title: Task collaboration and notifications — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Task collaboration and notifications
+  applications:
+  - Demo HR Task Workspace
+  sections:
+  - heading: Business process and capabilities
+    text: Assigned HR tasks support comments, user mentions, notifications and a personal
+      inbox. Mention recipients must be permitted to view the task. These are existing
+      demo features, not confirmed requirements for a new demand.
+  - heading: Applications and information exchange
+    text: In-app notification delivery is local to the demo task workspace. Email
+      or SMS exchange is a separate capability and must not be assumed. If instant
+      notification is requested, engineering must define its measurable latency.
+- id: hr_profiles
+  domain: HR
+  title: Employee self-service — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Employee self-service
+  applications:
+  - Demo People Portal
+  sections:
+  - heading: Business process and capabilities
+    text: Employees can review profile details and submit update requests. HR administrators
+      validate approved changes; direct profile editing must not be inferred from
+      viewing needs.
+  - heading: Applications and information exchange
+    text: Profile reads and update requests can exchange with Workday Sandbox. Confirm
+      field categories, data direction and which system owns the approved record.

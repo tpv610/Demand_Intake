@@ -1,0 +1,131 @@
+documents:
+- id: finance_payables
+  domain: Finance
+  title: Accounts payable — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Accounts payable
+  applications:
+  - Demo AP Workspace
+  - ERP Sandbox
+  sections:
+  - heading: Business process and capabilities
+    text: Accounts-payable analysts review supplier invoices, record exceptions and
+      track approvals. Viewing, approving and releasing payment are separate permissions.
+  - heading: Applications and information exchange
+    text: Invoice records may arrive from Demo Supplier Portal. Approved invoice status
+      may be sent to ERP Sandbox. Bank payment instructions are a separate exchange
+      requiring confirmation.
+- id: finance_receivables
+  domain: Finance
+  title: Accounts receivable and collections — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Accounts receivable and collections
+  applications:
+  - Demo Collections Workspace
+  sections:
+  - heading: Business process and capabilities
+    text: Collections analysts view overdue balances, record follow-ups and track
+      disputes. Customer access is separate from analyst access; do not infer audience
+      scope from the domain.
+  - heading: Applications and information exchange
+    text: ERP Sandbox can supply invoice and balance information. Communication with
+      Demo Customer Portal is optional and must be confirmed for the demand.
+- id: finance_expenses
+  domain: Finance
+  title: Expense management — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Expense management
+  applications:
+  - Demo Expense Portal
+  sections:
+  - heading: Business process and capabilities
+    text: Employees submit expense claims with receipt evidence. Managers review claims
+      and Finance checks policy exceptions. Approval thresholds depend on the selected
+      policy and must not be invented.
+  - heading: Applications and information exchange
+    text: Employee identifiers can be read from Workday Sandbox. Approved reimbursement
+      requests may be sent to ERP Sandbox; payment execution is not implied.
+- id: finance_reconciliation
+  domain: Finance
+  title: Financial reconciliation — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Financial reconciliation
+  applications:
+  - Demo Reconciliation Workbench
+  sections:
+  - heading: Business process and capabilities
+    text: Finance analysts compare ledger entries with statement transactions, investigate
+      mismatches and record resolution status. Automated matching and automatic posting
+      are distinct behaviors.
+  - heading: Applications and information exchange
+    text: Statement transactions can arrive from Demo Bank Feed and ledger entries
+      from ERP Sandbox. Adjustments sent back to the ledger require a separately confirmed
+      action and approval boundary.
+- id: finance_budgeting
+  domain: Finance
+  title: Budget planning — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Budget planning
+  applications:
+  - Demo Budget Workspace
+  sections:
+  - heading: Business process and capabilities
+    text: Budget owners submit forecasts and Finance compares planned versus actual
+      spending. Department submissions and enterprise consolidation have different
+      audience scopes.
+  - heading: Applications and information exchange
+    text: ERP Sandbox can provide actual expenditure. Forecast exports can be sent
+      to Demo Planning Store; the selected integration depends on supplied requirements.
+- id: finance_close
+  domain: Finance
+  title: Financial close — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Financial close
+  applications:
+  - Demo Close Tracker
+  sections:
+  - heading: Business process and capabilities
+    text: Close coordinators assign tasks, collect completion evidence and track dependencies.
+      A task marked complete does not imply that ledger balances were approved.
+  - heading: Applications and information exchange
+    text: ERP Sandbox may supply period status. Document evidence may be linked from
+      Demo Document Store. Confirm whether actual data exchange or a navigation link
+      is needed.
+- id: finance_supplier
+  domain: Finance
+  title: Supplier onboarding — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Supplier onboarding
+  applications:
+  - Demo Supplier Workspace
+  sections:
+  - heading: Business process and capabilities
+    text: Supplier registration captures company and payment details, with Finance
+      review before approval. Sensitive bank-information changes require confirmed
+      authorization rules.
+  - heading: Applications and information exchange
+    text: Approved supplier records may be sent to ERP Sandbox. Validation services
+      are separate integrations; do not infer them from supplier onboarding alone.
+- id: finance_reporting
+  domain: Finance
+  title: Finance reporting — synthetic demo reference
+  version: '1.0'
+  synthetic: true
+  process: Finance reporting
+  applications:
+  - Demo Finance Reporting Hub
+  sections:
+  - heading: Business process and capabilities
+    text: Finance users request reports, filter results and review financial measures.
+      Report access depends on data scope. Do not fabricate numerical savings or expected
+      ROI.
+  - heading: Applications and information exchange
+    text: The demo hub reads financial data from ERP Sandbox or Demo Finance Warehouse.
+      Confirm source, refresh expectations and output consumers.

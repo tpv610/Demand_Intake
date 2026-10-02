@@ -1,0 +1,196 @@
+fields:
+- id: requested_change
+  label: Requested change
+  type: text
+  description: Concrete requested capability or change.
+  required: true
+- id: business_need
+  label: Business need
+  type: text
+  description: Stated business problem, unmet need or capability gap. An explicitly
+    absent requested capability is itself a valid answered need. Record a concise
+    gap anchored in the requested capability, without inventing impact, a workaround,
+    or negating every detailed requirement. Additional operational pain or measurable
+    impact is not required. When a business purpose is stated, summarize WHY the change
+    is needed, separate from HOW the proposed feature works. Do not invent current
+    pain or missing capability.
+  required: true
+- id: expected_outcome
+  label: Expected outcome
+  type: text
+  description: Expressly requested future behavior or result, without automatic copying.
+  required: false
+- id: primary_users
+  label: Primary users
+  type: list
+  description: All stated user roles, including internal and external audiences.
+  required: true
+- id: organizational_scope
+  label: Organizational scope
+  type: enum
+  description: Audience breadth, supported by evidence of organizational boundaries
+    or explicit internal/external audiences. Enterprise requires the whole organization;
+    multiple_departments requires several departments; department requires one department;
+    team requires one team. Vague breadth or volume does not establish any of these
+    categories. Leave unchanged and clarify when boundaries are unclear; use unconfirmed
+    for explicit uncertainty. Never turn a requesting department into an audience
+    boundary.
+  required: false
+  allowed_values:
+  - team
+  - department
+  - multiple_departments
+  - enterprise
+  - external
+  - mixed
+- id: estimated_users
+  label: Estimated users
+  type: integer
+  description: Clearly stated current/initial integer user estimate; do not collapse
+    phased counts.
+  required: false
+- id: domain
+  label: Business domain
+  type: text
+  description: 'Owning business domain: HR, Finance, another explicitly identified
+    domain or unconfirmed. Software wording alone does not determine the business
+    domain.'
+  required: false
+- id: business_process
+  label: Business process
+  type: text
+  description: Process supported, such as leave approval or reconciliation. Infer
+    a concise process name when directly supported by described activities (e.g. login/session
+    management, customer loyalty/rewards management). Preserve evidence; do not infer
+    domain or ownership from the process.
+  required: false
+- id: requesting_unit
+  label: Requesting unit
+  type: text
+  description: Requesting business unit, separate from accountable owner.
+  required: false
+- id: application_context
+  label: Application context
+  type: enum
+  description: Standalone means independently delivered. A new feature inside an existing
+    application is existing. Missing feature does not prove standalone.
+  required: false
+  allowed_values:
+  - standalone
+  - existing
+- id: existing_application
+  label: Existing application
+  type: text
+  description: Actual application being changed; product examples do not identify
+    an affected system.
+  required: false
+  not_applicable_when:
+    field: answers.application_context.value
+    operator: equals
+    value: standalone
+  applicable_when:
+    field: answers.application_context.value
+    operator: equals
+    value: existing
+- id: functional_requirements
+  label: Functional requirements
+  type: list
+  description: Concrete user/system actions, triggers and limits actually requested.
+    Preserve existing non-integration requirements across turns. Capture integration-specific
+    exchanges in integration_flow and integration_details rather than adding a duplicate
+    generic send/receive-data functional requirement.
+  required: true
+- id: supplied_priority
+  label: Supplied priority
+  type: text
+  description: Explicit requestor-supplied priority label. Preserve it as metadata;
+    it is not a technical constraint or an inferred delivery urgency.
+  required: false
+- id: constraints
+  label: Supplied constraints
+  type: list
+  description: 'Explicit technical or non-functional constraints only, such as performance
+    limits, security requirements or mandatory platform restrictions. Exclude priority
+    labels, business domain and feature names: those are metadata, not constraints.
+    Preserve supplied values without endorsing design guarantees.'
+  required: false
+- id: success_result
+  label: Success result
+  type: text
+  description: Qualitative or numeric result as supplied. Better user experience is
+    acceptable; do not invent a percentage or substitute satisfaction.
+  required: false
+- id: integration_required
+  label: Integration required
+  type: boolean
+  description: Explicit separate-system exchange decision. Automation, calendars or
+    data alone do not establish integration.
+  required: false
+- id: integration_systems
+  label: Integration systems
+  type: list
+  description: Counterpart systems. Unknown targets do not mean no integration.
+  required: false
+  not_applicable_when:
+    field: answers.integration_required.value
+    operator: equals
+    value: false
+  applicable_when:
+    field: answers.integration_required.value
+    operator: equals
+    value: true
+- id: integration_flow
+  label: Integration flow
+  type: text
+  description: Information exchanged and direction, if stated.
+  required: false
+  not_applicable_when:
+    field: answers.integration_required.value
+    operator: equals
+    value: false
+  applicable_when:
+    field: answers.integration_required.value
+    operator: equals
+    value: true
+- id: target_timeline
+  label: Target timeline
+  type: text
+  description: Stated date, period or event; no target date is not applicable.
+  required: false
+- id: timing_reason
+  label: Timing reason
+  type: text
+  description: Reason driving timing; if no timing applies, not applicable; if undecided,
+    unconfirmed.
+  required: false
+- id: timeline_commitment
+  label: Timeline commitment
+  type: enum
+  description: Only explicitly supplied firm or preferred commitment.
+  required: false
+  allowed_values:
+  - firm
+  - preferred
+- id: business_owner
+  label: Business owner
+  type: text
+  description: Current accountable person/team. Requesting unit, audience and routing
+    team do not automatically establish owner.
+  required: false
+- id: integration_details
+  label: Integration information and action
+  type: text
+  description: 'Explicit information categories exchanged and action performed by
+    the receiving system. Generic data alone is insufficient: leave missing and clarify.
+    Explicit unknown details are unconfirmed. Do not assume sending data means committing
+    or pushing code. Preserve supplied exclusions and ask how the exchange relates
+    to them if unclear.'
+  required: false
+  applicable_when:
+    field: answers.integration_required.value
+    operator: equals
+    value: true
+  not_applicable_when:
+    field: answers.integration_required.value
+    operator: equals
+    value: false
